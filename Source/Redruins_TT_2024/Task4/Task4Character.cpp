@@ -42,6 +42,7 @@ bool ATask4Character::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bun
 	bool WroteSomething = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
 	
 	if (TestObject ) WroteSomething |= Channel->ReplicateSubobject(TestObject , *Bunch, *RepFlags);
+	if (StaticMeshComponent ) WroteSomething |= Channel->ReplicateSubobject(StaticMeshComponent , *Bunch, *RepFlags);
 
 	return WroteSomething;
 }
@@ -51,21 +52,21 @@ void ATask4Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATask4Character, TestObject);
-	DOREPLIFETIME(ATask4Character, NewStaticMesh);
+	DOREPLIFETIME(ATask4Character, StaticMeshComponent);
 }
 
 void ATask4Character::CreateDynamicObject()
 {
 	if(HasAuthority())
 	{
-		NewStaticMesh = NewObject<UStaticMeshComponent>(this, TEXT("StaticMesh"));
-		if (NewStaticMesh)
+		StaticMeshComponent = NewObject<UStaticMeshComponent>(this, TEXT("StaticMesh"));
+		if (StaticMeshComponent)
 		{
 			FVector ActorLocation = GetActorLocation();
-			NewStaticMesh->SetRelativeLocation(ActorLocation + DynamicMeshOffset);
-			NewStaticMesh->SetStaticMesh(StaticMesh);
-			NewStaticMesh->SetIsReplicated(true); 
-			NewStaticMesh->RegisterComponentWithWorld(GetWorld());
+			StaticMeshComponent->SetRelativeLocation(ActorLocation + DynamicMeshOffset);
+			StaticMeshComponent->SetStaticMesh(StaticMesh);
+			StaticMeshComponent->SetIsReplicated(true); 
+			StaticMeshComponent->RegisterComponentWithWorld(GetWorld());
 		}
 	}
 }

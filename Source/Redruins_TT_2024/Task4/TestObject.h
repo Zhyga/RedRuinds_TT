@@ -16,6 +16,16 @@ public:
 	
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 	
+	virtual bool CallRemoteFunction (UFunction * Function, void * Parms, struct FOutParmRec * OutParms, FFrame * Stack) override;
+
+	virtual int32 GetFunctionCallspace (UFunction* Function, FFrame* Stack) override;
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeValues();
+
+	UFUNCTION(Server, Unreliable, BlueprintCallable)
+	void RPC_Server_ChangeValues();
+	
 	UPROPERTY(BlueprintReadWrite, Replicated, meta=(ExposeOnSpawn=true))
 	bool value1;
 
@@ -30,3 +40,4 @@ public:
 		return true;
 	}
 };
+
