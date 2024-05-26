@@ -49,7 +49,7 @@ public:
 	UStaticMesh* StaticMesh;
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
-	UStaticMeshComponent* StaticMeshComponent;
+	UStaticMeshComponent* StaticMeshComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector DynamicMeshOffset;
